@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Mothers Day</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(120deg, #ff9acb, #ff5fa2, #ffc1dc, #ff7eb9);
+      background-size: 400% 400%;
+      animation: pinkBackground 8s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes pinkBackground {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .center-text {
+      font-size: clamp(4rem, 14vw, 10rem);
+      font-weight: 900;
+      color: white;
+      text-shadow: 0 8px 25px rgba(255, 20, 120, 0.45);
+      z-index: 10;
+      letter-spacing: 4px;
+      text-align: center;
+      padding: 0 1rem;
+    }
+
+    .music-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 20;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: white;
+      color: #d81b60;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .music-button:hover {
+      transform: scale(1.05);
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 70px;
+      height: 90px;
+      border-radius: 50% 50% 45% 45%;
+      animation: floatUp linear infinite;
+      opacity: 0.9;
+    }
+
+    .balloon::before {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 14px solid currentColor;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -65px;
+      left: 50%;
+      width: 2px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.8);
+      transform: translateX(-50%);
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-55vh) translateX(30px) rotate(6deg);
+      }
+      100% {
+        transform: translateY(-120vh) translateX(-30px) rotate(-6deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="music-button" onclick="toggleMusic()">Pause Music</button>
+
+  <h1 class="center-text">happy mothers day</h1>
+
+  <audio id="music" loop>
+    <source src="Fluffing a Duck.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const music = document.getElementById("music");
+    const musicButton = document.querySelector(".music-button");
+
+    function toggleMusic() {
+      if (music.paused) {
+        music.play();
+        musicButton.textContent = "Pause Music";
+      } else {
+        music.pause();
+        musicButton.textContent = "Play Music";
+      }
+    }
+
+    window.addEventListener("load", () => {
+      music.play().catch(() => {
+        musicButton.textContent = "Play Music";
+      });
+    });
+
+    const balloonColors = [
+      "#ff4fa3",
+      "#ff77c8",
+      "#ff9fd6",
+      "#ff2f92",
+      "#ffc1e3",
+      "#ffffff"
+    ];
+
+    function createBalloon() {
+      const balloon = document.createElement("div");
+      balloon.classList.add("balloon");
+
+      const size = Math.random() * 45 + 45;
+      const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+      const leftPosition = Math.random() * 100;
+      const duration = Math.random() * 5 + 7;
+
+      balloon.style.width = `${size}px`;
+      balloon.style.height = `${size * 1.25}px`;
+      balloon.style.left = `${leftPosition}vw`;
+      balloon.style.background = color;
+      balloon.style.color = color;
+      balloon.style.animationDuration = `${duration}s`;
+
+      document.body.appendChild(balloon);
+
+      setTimeout(() => {
+        balloon.remove();
+      }, duration * 1000);
+    }
+
+    setInterval(createBalloon, 500);
+  </script>
+</body>
+</html>
